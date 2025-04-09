@@ -1,0 +1,8 @@
+server:
+  http2:
+    enabled: true
+  port: 8003
+spring:
+  application:
+    name: notices-service
+
