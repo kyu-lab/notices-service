@@ -1,4 +1,4 @@
-package kyulab.noticesservice.service;
+package kyulab.noticesservice.service.gateway;
 
 import kyulab.noticesservice.dto.gateway.UsersInfoResDto;
 import org.springframework.beans.factory.annotation.Value;
@@ -8,17 +8,17 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @Service
-public class UserClientService {
+public class UserGatewayService {
 
 	private final WebClient webClient;
 
-	@Value("${gateway.users:}")
+	@Value("${gateway.users-path:/users}")
 	private String usersServicePath;
 
-	@Value("${gateway.follow:}")
+	@Value("${gateway.follow-path:/follow}")
 	private String followServicePath;
 
-	public UserClientService(WebClient userServiceWebClient) {
+	public UserGatewayService(WebClient userServiceWebClient) {
 		this.webClient = userServiceWebClient;
 	}
 

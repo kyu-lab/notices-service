@@ -1,7 +1,8 @@
-package kyulab.noticesservice.service;
+package kyulab.noticesservice.service.kafka;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import kyulab.noticesservice.dto.kafka.PostDto;
+import kyulab.noticesservice.service.NoticesService;
 import lombok.RequiredArgsConstructor;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.springframework.kafka.annotation.KafkaListener;

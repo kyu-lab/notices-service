@@ -5,7 +5,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import kyulab.noticesservice.Repository.NoticesRepository;
 import kyulab.noticesservice.dto.PostNoticesDto;
 import kyulab.noticesservice.dto.kafka.PostDto;
-import kyulab.noticesservice.document.Notices;
+import kyulab.noticesservice.entity.Notices;
+import kyulab.noticesservice.service.gateway.UserGatewayService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.codec.ServerSentEvent;
@@ -25,7 +26,7 @@ public class NoticesService {
 
 	private final ObjectMapper objectMapper = new ObjectMapper();
 	private final Map<Long, Sinks.Many<ServerSentEvent<String>>> userSinks = new ConcurrentHashMap<>();
-	private final UserClientService userClientService;
+	private final UserGatewayService userGatewayService;
 	private final NoticesRepository noticesRepository;
 
 	public Flux<ServerSentEvent<String>> subscribe(long userId) {
@@ -49,14 +50,14 @@ public class NoticesService {
 
 		return Flux.merge(initialEvent, sink.asFlux(), heartbeat)
 				.doFinally(s -> {
-					log.info("유저 {} 연결 종료", userId);
+					log.debug("유저 {} 연결 종료", userId);
 					userSinks.remove(userId);
 				});
 	}
 
 	public void processNotification(PostDto postDto) {
-		userClientService.getUserInfo(postDto.getUserId())
-			.flatMapMany(userInfo -> userClientService.getFollowers(postDto.getUserId())
+		userGatewayService.getUserInfo(postDto.getUserId())
+			.flatMapMany(userInfo -> userGatewayService.getFollowers(postDto.getUserId())
 				.flatMap(followerId -> {
 					Notices notices = new Notices(
 							postDto.getPostId(),
@@ -93,10 +94,12 @@ public class NoticesService {
 	}
 
 	public Flux<Notices> getPastNotices(long userId) {
+		log.debug("유저 {}가 알림 내용 확인시도", userId);
 		return noticesRepository.findByFollowerId(userId);
 	}
 
 	public Mono<Void> deleteNotices(String noticesId) {
+		log.debug("알림 {} 삭제", noticesId);
 		return noticesRepository.deleteById(noticesId);
 	}
 

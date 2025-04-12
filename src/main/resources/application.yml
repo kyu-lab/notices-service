@@ -5,4 +5,3 @@ server:
 spring:
   application:
     name: notices-service
-
