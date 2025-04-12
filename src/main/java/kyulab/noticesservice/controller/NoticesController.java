@@ -1,6 +1,6 @@
 package kyulab.noticesservice.controller;
 
-import kyulab.noticesservice.document.Notices;
+import kyulab.noticesservice.entity.Notices;
 import kyulab.noticesservice.service.NoticesService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

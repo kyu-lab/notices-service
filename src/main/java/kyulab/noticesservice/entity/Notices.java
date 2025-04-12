@@ -1,4 +1,4 @@
-package kyulab.noticesservice.document;
+package kyulab.noticesservice.entity;
 
 import lombok.Getter;
 import org.springframework.data.annotation.Id;

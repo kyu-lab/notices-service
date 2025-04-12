@@ -1,6 +1,6 @@
 package kyulab.noticesservice.Repository;
 
-import kyulab.noticesservice.document.Notices;
+import kyulab.noticesservice.entity.Notices;
 import org.springframework.data.mongodb.repository.ReactiveMongoRepository;
 import org.springframework.stereotype.Repository;
 import reactor.core.publisher.Flux;

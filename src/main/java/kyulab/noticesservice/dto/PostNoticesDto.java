@@ -1,6 +1,6 @@
 package kyulab.noticesservice.dto;
 
-import kyulab.noticesservice.document.Notices;
+import kyulab.noticesservice.entity.Notices;
 
 import java.time.LocalDateTime;
 

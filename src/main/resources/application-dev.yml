@@ -18,12 +18,34 @@ spring:
       value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
 eureka:
   client:
-    enabled: false
-gateway:
-  baseUrl: http://localhost:8000/gateway
-  follow: /follow
-  users: /users
-  key: ZGtzb2FmamRhc3BvZmphZHdzZjtsa2prbGohQCNAKClfKmpA
+    enabled: true
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://localhost:8761/discovery/eureka
+  instance:
+    prefer-ip-address: true
+    lease-renewal-interval-in-seconds: 30
+    lease-expiration-duration-in-seconds: 120
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+  endpoint:
+    info:
+      access: read_only
+    health:
+      show-details: always
 logging:
   level:
+    root: INFO
+    com.netflix.discovery: INFO
+    org.springframework.kafka: INFO
     org.springframework.data.mongodb: DEBUG
+    kyulab.noticesservice.service.NoticesService: DEBUG
+gateway:
+  base-url: http://localhost:8000/gateway
+  gateway-key: ZGtzb2FmamRhc3BvZmphZHdzZjtsa2prbGohQCNAKClfKmpA
+  users-path: /users
+  follow-path: /follow

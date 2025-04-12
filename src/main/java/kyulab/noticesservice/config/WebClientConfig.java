@@ -8,10 +8,10 @@ import org.springframework.web.reactive.function.client.WebClient;
 @Configuration
 public class WebClientConfig {
 
-	@Value("${gateway.baseUrl:}")
+	@Value("${gateway.base-url:}")
 	private String baseUrl;
 
-	@Value("${gateway.key:}")
+	@Value("${gateway.gateway-key:}")
 	private String key;
 
 	@Bean
