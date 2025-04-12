@@ -1,0 +1,34 @@
+services:
+  notices-service:
+    container_name: napp
+    image: notices-service:latest
+    restart: always
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8003:8003"
+    environment:
+      - SPRING_DATA_MONGODB_URI=mongodb://nmongo:27017/notices-service
+      - CONFIG_SERVER_URL=http://172.17.0.1:8888
+    depends_on:
+      - mongo
+    volumes:
+      - ./uploads:/var/uploads
+    networks:
+      - my-network
+  mongo:
+    image: mongo:7
+    container_name: nmongo
+    restart: always
+    ports:
+      - "27018:27017"
+    volumes:
+      - mongodata_temp:/data/db
+    networks:
+      - my-network
+networks:
+  my-network:
+    external: true
+volumes:
+  mongodata_temp:
